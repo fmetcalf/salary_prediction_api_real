@@ -14,7 +14,7 @@ def home():
     return (
         "<h1>Salary Prediction API</h1>"
         "<p>BAIS:3300 - Digital Product Development</p>"
-        "<p>Mike Colbert</p>"
+        "<p>Frank Metcalf</p>"
     )
 
 @app.route("/predict", methods=["POST"])
@@ -23,8 +23,12 @@ def predict():
     Predict salary based on input JSON payload
     Expected keys: age, gender, country, highest_deg, coding_exp, title, company_size
     """
+    print("inside predict")
     try:
         data = request.get_json()
+
+        print(f"data from the user: {data}")
+
 
         required_fields = ["age", "gender", "country", "highest_deg", "coding_exp", "title", "company_size"]
         if not all(field in data for field in required_fields):
@@ -40,8 +44,10 @@ def predict():
             int(data["title"]),
             int(data["company_size"]),
         ]
-
+        print(f"features before using the model: {data}")
         prediction = model.predict([features])[0]
+
+        print(f"prediction: {prediction}")
 
         return jsonify({"predicted_salary": prediction})
 
